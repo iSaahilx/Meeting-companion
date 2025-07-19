@@ -231,14 +231,5 @@ We welcome contributions! Please feel free to submit issues, feature requests, o
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 🙏 Acknowledgments
-
-- OpenAI for GPT-4o language model
-- Deepgram for speech-to-text capabilities
-- Pinecone for vector database services
-- Serper.dev for web search integration
-- Unstructured.io for document processing
-
----
 
 **Ready to transform your documents into a voice-powered AI assistant? Start speaking! 🎤** 
