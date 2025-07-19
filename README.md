@@ -1,152 +1,349 @@
-# StealthStartup: Voice-Powered RAG System
+# StealthStartup Multimodal RAG System
 
-StealthStartup is an advanced Retrieval-Augmented Generation (RAG) application that allows users to ask questions about their documents using their voice. It transcribes the user's speech, finds the most relevant information within the uploaded documents, and generates a comprehensive, sourced answer using a large language model.
+A sophisticated multimodal RAG (Retrieval-Augmented Generation) system that understands both text and images from documents using LlamaIndex, GPT-4V, and CLIP embeddings.
 
-## Features
+## 🚀 Features
 
--   **Continuous Voice Input**: Automatic voice recording starts when the site loads, with real-time transcription display.
--   **Smart Query Triggering**: Automatically sends queries when speech stops for 3-5 seconds, providing a natural conversation flow.
--   **Real-time Transcription**: Shows live transcription as you speak, with visual indicators for listening status.
--   **Document Management**: Upload and manage a personal library of PDF documents.
--   **Advanced RAG Pipeline**: Utilizes a sophisticated pipeline including semantic chunking, vector search, and reranking to find the most accurate context.
--   **Sourced Answers**: Every answer is backed by citations from the source documents.
--   **Interactive Source Viewer**: View the exact page of a source document as an image, with zoom, pan, and download capabilities.
--   **Streaming Responses**: The AI's answer is streamed in real-time for a responsive feel.
+### True Multimodal Understanding
+- **Text Processing**: Extracts and chunks text content from PDFs
+- **Image Understanding**: Uses GPT-4V to analyze and describe images in context
+- **Table Extraction**: Processes tabular data from documents
+- **Cross-Modal Retrieval**: Searches across text and images simultaneously
 
-## Tech Stack
+### Advanced AI Capabilities
+- **GPT-4V Integration**: Visual understanding of charts, graphs, and diagrams
+- **CLIP Embeddings**: Image embeddings for semantic search
+- **LlamaIndex Framework**: Robust multimodal indexing and retrieval
+- **Pinecone Vector Store**: Scalable vector storage for both text and images
 
-| Category      | Technology                                                              |
-|---------------|-------------------------------------------------------------------------|
-| **Frontend**  | React, Tailwind CSS                                                     |
-| **Backend**   | FastAPI (Python)                                                        |
-| **AI/ML**     | OpenAI (GPT-4o), Deepgram (Speech-to-Text)             |
-| **Database**  | Pinecone (Vector Store)                                                    |
-| **PDF Parsing**| `unstructured.io`                                                       |
+### Voice Interface
+- **Continuous Voice Input**: Automatic recording on site load
+- **Real-time Transcription**: Live display of speech-to-text
+- **Auto-Query Trigger**: Sends queries after 3-5 seconds of silence
+- **Voice Status Indicators**: Visual feedback for recording states
 
-## End-to-End Workflow
+### Modern Web Interface
+- **Responsive Design**: Works on desktop and mobile
+- **Real-time Updates**: Live transcription and response streaming
+- **Source Visualization**: Displays text and image sources
+- **Document Management**: Upload, view, and manage PDFs
 
-The application follows a multi-step process to answer a user's question:
+## 🏗️ Architecture
 
-```mermaid
-graph TD
-    subgraph Frontend
-        A[1. Auto-Start Recording] --> B[2. Real-time Transcription];
-        B --> C[3. Speech Detection];
-        C --> D{4. 3-5s Silence?};
-        D -->|No| B;
-        D -->|Yes| E[5. Send Query];
-    end
-
-    subgraph Backend
-        E --> F[6. Transcribe with Deepgram];
-        F --> G[7. Get User Query];
-        G --> H[8. Document Search (Pinecone)];
-        G --> I[9. Web Search (Serper.dev)];
-        H --> J[10. Combine Top 5 from Each];
-        I --> J;
-        J --> K[11. Construct Prompt];
-        K --> L[12. Generate Answer (OpenAI)];
-    end
-
-    subgraph Frontend
-        L --> M[13. Stream Answer to UI];
-        L --> N[14. Display Source Images];
-    end
-
-    style A fill:#cde4ff,stroke:#6a8ebf,stroke-width:2px
-    style N fill:#cde4ff,stroke:#6a8ebf,stroke-width:2px
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Frontend      │    │   Backend       │    │   AI Services   │
+│                 │    │                 │    │                 │
+│ • React App     │◄──►│ • FastAPI       │◄──►│ • OpenAI GPT-4V │
+│ • Voice Input   │    │ • LlamaIndex    │    │ • CLIP Embeddings│
+│ • Real-time UI  │    │ • Pinecone      │    │ • GPT-4o        │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
 ```
 
-1.  **Auto-Start Recording**: Voice recording begins automatically when the site loads, with real-time transcription display.
-2.  **Real-time Transcription**: The audio is continuously streamed to the backend, which uses the **Deepgram** API to provide live transcription.
-3.  **Smart Query Triggering**: When speech stops for 3-5 seconds, the system automatically sends the completed transcript as a query.
-4.  **Dual Search**: The transcribed question is used to perform **both** document search (using **Pinecone** vector store) and web search (using **Serper.dev** API) in parallel.
-5.  **Result Combination**: The system takes the top 5 results from each source (documents and web) and combines them into a comprehensive context.
-6.  **Generation**: The combined top 10 results (5 from documents + 5 from web) and the user's question are passed to the **OpenAI GPT-4o** model, which generates a synthesized answer.
-7.  **Response & Sources**: The answer is streamed back to the UI, and links to the source pages are displayed for verification.
+### Data Flow
+
+1. **Document Upload**: PDF files are uploaded and processed
+2. **Multimodal Extraction**: Text, images, and tables are extracted
+3. **GPT-4V Analysis**: Images are analyzed and described in context
+4. **Vector Storage**: Text and image embeddings stored in Pinecone
+5. **Query Processing**: User queries search across all modalities
+6. **Response Generation**: LLM generates responses with multimodal context
+
+## 📁 Project Structure
+
+```
+Stealthstartup/
+├── backend/
+│   ├── main.py                          # FastAPI application
+│   ├── config.py                        # Configuration settings
+│   ├── requirements.txt                  # Python dependencies
+│   └── services/
+│       ├── multimodal_processor.py      # PDF processing with GPT-4V
+│       ├── multimodal_vector_store.py   # LlamaIndex + Pinecone
+│       └── agent_service_simple.py      # Multimodal RAG agent
+├── frontend/
+│   ├── src/
+│   │   ├── App.js                       # Main application
+│   │   ├── components/                  # React components
+│   │   ├── hooks/                       # Custom React hooks
+│   │   └── services/                    # API services
+│   └── package.json                     # Node.js dependencies
+└── README.md                           # This file
+```
+
+## 🛠️ Technology Stack
+
+### Backend
+- **FastAPI**: Modern Python web framework
+- **LlamaIndex**: Multimodal RAG framework
+- **OpenAI**: GPT-4V and GPT-4o for text and vision
+- **Pinecone**: Vector database for embeddings
+- **PyMuPDF**: PDF processing and image extraction
+- **Pillow**: Image processing
+
+### Frontend
+- **React**: Modern JavaScript framework
+- **Tailwind CSS**: Utility-first CSS framework
+- **Axios**: HTTP client for API calls
+- **React Hot Toast**: Notification system
+- **Web Speech API**: Voice input and transcription
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Python 3.8+
+- Node.js 16+
+- OpenAI API key
+- Pinecone API key
+
+### Backend Setup
+
+1. **Clone and navigate to backend**:
+```bash
+cd Stealthstartup/backend
+```
+
+2. **Install dependencies**:
+```bash
+pip install -r requirements.txt
+```
+
+3. **Set up environment variables**:
+```bash
+cp env_example.txt .env
+# Edit .env with your API keys
+```
+
+4. **Start the backend server**:
+```bash
+python main.py
+```
+
+### Frontend Setup
+
+1. **Navigate to frontend**:
+```bash
+cd Stealthstartup/frontend
+```
+
+2. **Install dependencies**:
+```bash
+npm install
+```
+
+3. **Start the development server**:
+```bash
+npm start
+```
+
+## 🔧 Configuration
+
+### Environment Variables (Backend)
+
+Create a `.env` file in the backend directory:
+
+```env
+# OpenAI Configuration
+OPENAI_API_KEY=your_openai_api_key_here
+OPENAI_MODEL=gpt-4o
+
+# Pinecone Configuration
+PINECONE_API_KEY=your_pinecone_api_key_here
+PINECONE_INDEX_NAME=multimodal-rag
+PINECONE_ENVIRONMENT=gcp-starter
+
+# Deepgram Configuration (for voice)
+DEEPGRAM_API_KEY=your_deepgram_api_key_here
+
+# Application Settings
+UPLOAD_DIR=./uploads
+FRONTEND_URL=http://localhost:3000
+```
+
+### LLM Parameters
+
+The system supports configurable LLM parameters:
+
+- **Temperature**: 0.7 (default) - Controls response creativity
+- **Top P**: 0.9 (default) - Nucleus sampling parameter
+- **Top K**: 40 (default) - Top-k sampling parameter
+- **Max Tokens**: 4000 (default) - Maximum response length
+
+Update via API: `POST /llm-parameters`
+
+## 📊 Multimodal Processing Pipeline
+
+### 1. Document Ingestion
+```python
+# PDF is uploaded and processed
+document = await multimodal_processor.process_pdf_multimodal(file_path, filename)
+```
+
+### 2. Content Extraction
+- **Text**: Extracted and chunked using sentence splitting
+- **Images**: Extracted as PIL images and base64 encoded
+- **Tables**: Extracted and converted to structured text
+
+### 3. GPT-4V Analysis
+```python
+# Images are analyzed in context
+enhanced_text = await processor.process_with_gpt4v(images, text)
+```
+
+### 4. Vector Storage
+```python
+# Text and image embeddings stored separately
+text_store = PineconeVectorStore(namespace="text")
+image_store = PineconeVectorStore(namespace="images")
+```
+
+### 5. Multimodal Retrieval
+```python
+# Search across both modalities
+results = await vector_store.search_multimodal(query, top_k=5)
+```
+
+## 🎤 Voice Interface
+
+### Continuous Voice Input
+- Recording starts automatically on page load
+- Real-time transcription displayed
+- Automatic query sending after silence detection
+- Visual status indicators for recording states
+
+### Voice Processing Flow
+1. **Audio Capture**: Browser microphone access
+2. **Real-time Transcription**: Speech-to-text conversion
+3. **Silence Detection**: Automatic query triggering
+4. **Query Processing**: Multimodal RAG search
+5. **Response Generation**: AI response with sources
+
+## 🔍 API Endpoints
+
+### Document Management
+- `POST /upload` - Upload and process PDF with multimodal understanding
+- `GET /health` - System health check
+- `GET /index-stats` - Vector index statistics
+
+### Query Processing
+- `POST /query` - Process query with multimodal RAG
+- `POST /query/stream` - Stream query response
+- `POST /llm-parameters` - Update LLM parameters
+
+### WebSocket
+- `WS /ws` - Real-time communication for voice and chat
+
+## 🎯 Usage Examples
+
+### Upload a Document
+```javascript
+const formData = new FormData();
+formData.append('file', pdfFile);
+const response = await apiService.uploadDocument(formData);
+```
+
+### Query with Multimodal Understanding
+```javascript
+const result = await apiService.sendQuery("What charts are shown in the document?", "multimodal");
+```
+
+### Update LLM Parameters
+```javascript
+await apiService.updateLLMParameters({
+  temperature: 0.8,
+  top_p: 0.9,
+  max_tokens: 3000
+});
+```
+
+## 🔧 Development
+
+### Adding New Modalities
+1. Extend `MultimodalProcessor` to handle new content types
+2. Add corresponding node types in LlamaIndex
+3. Update vector store to handle new embeddings
+4. Modify frontend to display new content types
+
+### Customizing LLM Parameters
+```python
+# In agent_service_simple.py
+multimodal_agent_service.update_llm_parameters(
+    temperature=0.8,
+    top_p=0.9,
+    top_k=50,
+    max_tokens=3000
+)
+```
+
+### Extending Search Types
+```python
+# Add new search types in multimodal_vector_store.py
+async def search_custom(self, query: str, modality: str):
+    # Custom search implementation
+    pass
+```
+
+## 🚀 Deployment
+
+### Backend Deployment
+1. Set up environment variables
+2. Install dependencies: `pip install -r requirements.txt`
+3. Start server: `python main.py`
+
+### Frontend Deployment
+1. Build for production: `npm run build`
+2. Serve static files from build directory
+3. Configure proxy to backend API
+
+### Docker Deployment
+```dockerfile
+# Backend Dockerfile
+FROM python:3.9-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+COPY . .
+CMD ["python", "main.py"]
+```
+
+## 🔍 Monitoring and Debugging
+
+### Health Checks
+- `GET /health` - Overall system health
+- Check individual service status
+- Monitor vector index statistics
+
+### Logging
+- Backend logs in console
+- Frontend errors in browser console
+- Voice processing status in UI
+
+### Common Issues
+1. **API Key Issues**: Verify OpenAI and Pinecone keys
+2. **Voice Not Working**: Check microphone permissions
+3. **Upload Failures**: Verify PDF format and size
+4. **Search Issues**: Check vector index health
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🙏 Acknowledgments
+
+- **LlamaIndex**: Multimodal RAG framework
+- **OpenAI**: GPT-4V and GPT-4o models
+- **Pinecone**: Vector database
+- **React**: Frontend framework
+- **FastAPI**: Backend framework
 
 ---
 
-## Project Structure & File Guide
-
-This section details the purpose of each key file in the project and where important configurations are located.
-
-### Backend (`/backend`)
-
-| File | Purpose | Key Configurations |
-| --- | --- | --- |
-| `main.py` | The main FastAPI application file. It defines all API endpoints for transcription, asking questions, document upload/deletion, and serving source images. | - API routes (`/api/transcribe`, `/api/ask`, etc.) |
-| `services/agent_service_simple.py` | **The core of the RAG pipeline**. It orchestrates the flow from transcription to final answer generation. Always performs both document and web search. | - **LLM Model**: `gpt-4o` <br> - **Temperature**: `0.2` <br> - **Document Search**: Top 5 results from Pinecone <br> - **Web Search**: Top 5 results from Serper.dev <br> - **System Prompt**: The main instructions given to the LLM. |
-| `services/vector_store.py` | Manages all interactions with the Pinecone vector database. Handles document indexing, embedding creation, similarity search, and deletion. | - **Vector Search**: Uses Pinecone for document similarity search |
-| `services/pdf_processor.py`| Handles the ingestion and processing of uploaded PDF documents. It uses the `unstructured` library to partition PDFs into text, tables, and images. | - **Chunk Size**: `1024` characters <br> - **Chunk Overlap**: `200` characters |
-| `config.py` | Loads all necessary API keys and configuration settings from a `.env` file using Pydantic. | - `OPENAI_API_KEY` <br> - `PINECONE_API_KEY` <br> - `SERPER_API_KEY` <br> - `DEEPGRAM_API_KEY` |
-| `requirements.txt` | Contains all the Python dependencies required for the backend to run. | - `fastapi`, `uvicorn`, `python-dotenv`, `openai`, `pinecone-client`, `deepgram-sdk`, `unstructured`, etc. |
-
-### Frontend (`/frontend`)
-
-| File | Purpose |
-| --- | --- |
-| `src/App.js` | The root component of the React application. It manages the overall state and layout, including the visibility of the `PDFViewer` and `ImageViewer` modals. |
-| `src/hooks/useVoice.js` | Manages continuous voice recording, real-time transcription, and automatic query triggering when speech stops for 3-5 seconds. |
-| `src/components/ChatInterface.js`| Displays the conversation history between the user and the AI. It receives and renders the streaming response from the backend. **This is a voice-only app, so there is no text input field.** |
-| `src/components/SourcePanel.js` | Displays the source documents that were used to generate an answer. It shows page images with links that open in the `ImageViewer`. |
-| `src/components/ImageViewer.js` | A feature-rich modal for viewing source page images. It includes controls for zooming, panning, and downloading the image. |
-| `src/components/DocumentList.js` | Displays the list of all uploaded documents, allowing users to view or delete them. |
-| `src/services/api.js` | A utility file that centralizes all API `fetch` calls to the backend, making the code cleaner and easier to maintain. |
-| `package.json` | Defines the frontend project's metadata, dependencies (like `react`, `tailwindcss`), and scripts (like `npm start`, `npm build`). |
-
-## Setup and Installation
-
-1.  **Clone the repository:**
-```bash
-git clone <repository-url>
-    cd StealthStartup
-```
-
-2.  **Backend Setup:**
-```bash
-cd backend
-python -m venv venv
-    source venv/bin/activate  # On Windows: venv\Scripts\activate
-pip install -r requirements.txt
-    ```
-
-3.  **Frontend Setup:**
-```bash
-    cd ../frontend
-npm install
-    ```
-
-4.  **Configuration:**
-    -   In the `backend` directory, create a `.env` file by copying the `env_example.txt`.
-    -   Fill in your API keys for OpenAI, Cohere, and Deepgram.
-    ```
-    OPENAI_API_KEY="sk-..."
-    PINECONE_API_KEY="..."
-    SERPER_API_KEY="..."
-    DEEPGRAM_API_KEY="..."
-    ```
-
-## How to Run
-
-1.  **Start the Backend Server:**
-   ```bash
-    cd backend
-    uvicorn main:app --reload
-    ```
-    The backend will be running at `http://localhost:8000`.
-
-2.  **Start the Frontend Development Server:**
-   ```bash
-    cd frontend
-    npm start
-    ```
-    The frontend will open automatically at `http://localhost:3000`.
-
-## How to Use
-
-1.  **Upload Documents**: Use the "Upload" button to add PDF files to your knowledge base.
-2.  **Start Speaking**: Voice recording begins automatically when the site loads. Simply start speaking to ask a question.
-3.  **Natural Conversation**: Speak naturally - the system will automatically send your question when you pause speaking for 3-5 seconds.
-4.  **View Answer and Sources**: The AI's answer will appear in the chat panel, and the source pages will appear in the right-hand panel.
-5.  **Inspect Sources**: Click on any source image to open it in a full-screen viewer. 
+**Note**: This system represents a true multimodal RAG implementation that goes beyond simple text processing to understand and reason about both text and images in documents. 
