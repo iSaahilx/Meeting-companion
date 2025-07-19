@@ -1,0 +1,35 @@
+# Web Framework
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+
+# Configuration
+python-dotenv==1.0.0
+pydantic==2.5.0
+pydantic-settings==2.2.1
+
+# AI/ML Services
+openai==1.12.0
+pinecone-client==3.2.2
+deepgram-sdk>=3.0.0
+langchain==0.0.340
+langchain-openai==0.0.2
+langgraph==0.0.20
+
+# Document Processing
+PyMuPDF==1.24.5
+pymupdf4llm==0.0.5
+Pillow==10.1.0
+
+# HTTP and Network
+requests==2.31.0
+httpx==0.27.0
+websockets==12.0
+aiofiles==23.2.1
+
+# Data Processing
+numpy==1.24.3
+
+# Security (optional - for future authentication)
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4 

@@ -1,0 +1,257 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom scrollbar styles */
+@layer base {
+  /* Webkit scrollbar styles */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  /* Firefox scrollbar styles */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.3) rgba(0, 0, 0, 0.1);
+  }
+
+  /* Dark mode scrollbar */
+  .dark ::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .dark ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  .dark * {
+    scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.1);
+  }
+}
+
+@layer components {
+  /* Voice recording animation */
+  .voice-recording {
+    @apply relative;
+  }
+
+  .voice-recording::before {
+    content: '';
+    @apply absolute inset-0 rounded-full bg-red-500 opacity-30 animate-ping;
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent;
+  }
+
+  /* Glassmorphism effect */
+  .glass {
+    @apply bg-white/10 backdrop-blur-md border border-white/20;
+  }
+
+  .glass-dark {
+    @apply bg-black/10 backdrop-blur-md border border-white/10;
+  }
+
+  /* Custom buttons */
+  .btn-primary {
+    @apply px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply px-4 py-2 bg-secondary-200 hover:bg-secondary-300 text-secondary-900 font-medium rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:ring-offset-2;
+  }
+
+  .btn-ghost {
+    @apply px-4 py-2 text-secondary-700 hover:text-secondary-900 hover:bg-secondary-100 font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:ring-offset-2;
+  }
+
+  /* Loading states */
+  .loading-dots::after {
+    content: '...';
+    @apply animate-pulse;
+  }
+
+  /* Chat message styles */
+  .message-user {
+    @apply bg-primary-600 text-white rounded-2xl rounded-br-md px-4 py-3 max-w-xs ml-auto;
+  }
+
+  .message-assistant {
+    @apply bg-secondary-100 text-secondary-900 rounded-2xl rounded-bl-md px-4 py-3 max-w-2xl;
+  }
+
+  /* PDF viewer container */
+  .pdf-container {
+    @apply border border-secondary-200 rounded-lg overflow-hidden shadow-soft;
+  }
+
+  .pdf-page {
+    @apply border-b border-secondary-100 last:border-b-0;
+  }
+
+  /* Source cards */
+  .source-card {
+    @apply bg-white border border-secondary-200 rounded-lg p-4 hover:shadow-soft transition-shadow duration-200;
+  }
+
+  .source-card-document {
+    @apply border-l-4 border-l-primary-500;
+  }
+
+  .source-card-web {
+    @apply border-l-4 border-l-accent-500;
+  }
+
+  /* Upload dropzone */
+  .dropzone {
+    @apply border-2 border-dashed border-secondary-300 rounded-lg p-8 text-center hover:border-primary-400 transition-colors duration-200;
+  }
+
+  .dropzone-active {
+    @apply border-primary-500 bg-primary-50;
+  }
+
+  /* Voice waveform animation */
+  .voice-wave {
+    @apply flex items-center space-x-1;
+  }
+
+  .voice-wave-bar {
+    @apply w-1 bg-primary-500 rounded-full animate-pulse;
+    height: 1rem;
+    animation-duration: 0.8s;
+  }
+
+  .voice-wave-bar:nth-child(2) { animation-delay: 0.1s; }
+  .voice-wave-bar:nth-child(3) { animation-delay: 0.2s; }
+  .voice-wave-bar:nth-child(4) { animation-delay: 0.3s; }
+  .voice-wave-bar:nth-child(5) { animation-delay: 0.4s; }
+
+  /* Transcript styles */
+  .transcript-interim {
+    @apply text-secondary-500 italic;
+  }
+
+  .transcript-final {
+    @apply text-secondary-900 font-medium;
+  }
+
+  /* Code highlighting */
+  .prose code {
+    @apply bg-secondary-100 text-secondary-800 px-1 py-0.5 rounded text-sm font-mono;
+  }
+
+  .prose pre {
+    @apply bg-secondary-900 text-secondary-100 p-4 rounded-lg overflow-x-auto;
+  }
+
+  .prose pre code {
+    @apply bg-transparent text-inherit p-0;
+  }
+}
+
+@layer utilities {
+  /* Text selection */
+  .select-none {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  /* Hide scrollbar */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Focus visible only */
+  .focus-visible-only:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  /* Truncate text with ellipsis */
+  .text-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Clamp text lines */
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .dark-auto {
+    @apply bg-secondary-900 text-secondary-100;
+  }
+
+  .dark-auto .message-assistant {
+    @apply bg-secondary-800 text-secondary-100;
+  }
+
+  .dark-auto .source-card {
+    @apply bg-secondary-800 border-secondary-700;
+  }
+
+  .dark-auto .pdf-container {
+    @apply border-secondary-700;
+  }
+
+  .dark-auto .pdf-page {
+    @apply border-secondary-700;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  .print-break-before {
+    page-break-before: always;
+  }
+
+  .print-break-after {
+    page-break-after: always;
+  }
+} 
